@@ -128,13 +128,38 @@ public_users.get('/author/:author',function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-    const title = req.params.title;
+    // Default task 4
+    // const title = req.params.title;
 
     // Revisare la valore dela envio
     // return res.status(300).json({message: `Value: ${author}`});
-    let titleBooks = Object.values(books).filter(book => book.title == title);
+    // let titleBooks = Object.values(books).filter(book => book.title == title);
     // return res.send(authorBooks);
-    res.send(JSON.stringify(titleBooks,null,4));
+    // res.send(JSON.stringify(titleBooks,null,4));
+
+    // Task 13
+    let promise = new Promise((resolve, reject) => {
+        const title = req.params.title;
+        let titleBooks = Object.values(books).filter(book => book.title == title);
+        retrieved = JSON.stringify(titleBooks,null,4)
+
+        if (retrieved) {
+            res.send(retrieved);
+            resolve('Retrieved data successfully');
+        } else {
+            reject('Somethingh went wrong.');
+        }
+    });
+    
+    promise.then(result => {
+            console.log(result); // This will run if the Promise is fulfilled
+        })
+        .catch(error => {
+            console.error(error); // This will run if the Promise is rejected
+        })
+        .finally(() => {
+            console.log('The promise has completed'); // This will run when the Promise is settled
+    });
 
 });
 
