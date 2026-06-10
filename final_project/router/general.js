@@ -32,8 +32,31 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books,null,4));
+    // Defarult task 1
+    // res.send(JSON.stringify(books,null,4));
+
+    // For task 10
+    let promise = new Promise((resolve, reject) => {
+        retrieved = JSON.stringify(books,null,4)
+        if (retrieved) {
+            res.send(retrieved);
+            resolve('Retrieved data successfully');
+        } else {
+            reject('Somethingh went wrong.');
+        }
+    });
+    
+    promise.then(result => {
+            console.log(result); // This will run if the Promise is fulfilled
+        })
+        .catch(error => {
+            console.error(error); // This will run if the Promise is rejected
+        })
+        .finally(() => {
+            console.log('The promise has completed'); // This will run when the Promise is settled
+    });
 });
+
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
