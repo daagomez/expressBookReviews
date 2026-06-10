@@ -60,8 +60,33 @@ public_users.get('/',function (req, res) {
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-    const isbn = req.params.isbn;
-    res.send(books[isbn]);
+    // Default task 2
+    // const isbn = req.params.isbn;
+    // res.send(books[isbn]);
+
+    // Task 11
+    let promise = new Promise((resolve, reject) => {
+        const isbn = req.params.isbn;
+        retrieved = books[isbn];
+
+        if (retrieved) {
+            res.send(retrieved);
+            resolve('Retrieved data successfully');
+        } else {
+            reject('Somethingh went wrong.');
+        }
+    });
+    
+    promise.then(result => {
+            console.log(result); // This will run if the Promise is fulfilled
+        })
+        .catch(error => {
+            console.error(error); // This will run if the Promise is rejected
+        })
+        .finally(() => {
+            console.log('The promise has completed'); // This will run when the Promise is settled
+    });
+
  });
   
 // Get book details based on author
