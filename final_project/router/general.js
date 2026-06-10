@@ -91,13 +91,39 @@ public_users.get('/isbn/:isbn',function (req, res) {
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-    const author = req.params.author;
+    // Original task 3
+    // const author = req.params.author;
 
     // Revisare la valore dela envio
     // return res.status(300).json({message: `Value: ${author}`});
-    let authorBooks = Object.values(books).filter(book => book.author == author);
+    // let authorBooks = Object.values(books).filter(book => book.author == author);
     // return res.send(authorBooks);
-    res.send(JSON.stringify(authorBooks,null,4));
+    // res.send(JSON.stringify(authorBooks,null,4));
+    
+    // Task 12
+    let promise = new Promise((resolve, reject) => {
+        const author = req.params.author;
+        let authorBooks = Object.values(books).filter(book => book.author == author);
+        retrieved = JSON.stringify(authorBooks,null,4);
+        if (retrieved) {
+            res.send(retrieved);
+            resolve('Retrieved data successfully');
+        } else {
+            reject('Somethingh went wrong.');
+        }
+    });
+    
+    promise.then(result => {
+            console.log(result); // This will run if the Promise is fulfilled
+        })
+        .catch(error => {
+            console.error(error); // This will run if the Promise is rejected
+        })
+        .finally(() => {
+            console.log('The promise has completed'); // This will run when the Promise is settled
+    });
+
+
 });
 
 // Get all books based on title
